@@ -3,12 +3,16 @@
 #Sub     : Pollutant estimate
 #Part    : (01) Preparing data sets 
 #Purpose : Read in census data, income data, pollutant conc, incidence rate (National), and prevelance rate (National)
-#         Followed by joining the data sets s
+#         Followed by joining the data sets 
+#         Followed by estimating the burden
 #Created by Raed Alotaibi
-#Date Created: June-26-2019
+#Date Created: 26-June-2019
+#Last updated: 28-June-2019
 #---------------------------------------------#
 
 
+# Stop clock --------------------------------------------------------------
+ptm <- proc.time()
 
 # Loading packagesa -------------------------------------------------------
 
@@ -24,8 +28,7 @@ library(htmltools)
 
 
 
-# Start the clock!
-ptm <- proc.time()
+
 
 # Loading Census 2000 -----------------------------------------------------
 path_census2000 <- "Data\\Census\\nhgis0042_ds147_2000_block.csv"
@@ -177,9 +180,40 @@ rm(NO2)
 rm(PM)
 rm(census)
 
-  # Stop the clock
-  proc.time() - ptm
 
 
+
+# Converting wide format to long format -----------------------------------
+census_3 <- census_2 %>% 
+  gather("POLLUT" , "CONC", -GISJOIN, -YEAR, -FIPS, -PlaceFIPS, -PLACEA, -STATE, -URBAN, -TOTAL, -CHILDREN)
+
+
+
+
+# Estimating the burden ---------------------------------------------------
+
+    burden <- census_3 %>% 
+    mutate(IR = 0.0125, 
+           PRV   = ifelse(YEAR == 2000, 0.124, 0.137),
+           CRF   = ifelse(POLLUT == 'NO2', 1.05, ifelse(POLLUT == 'PM10', 1.05, 1.03)),
+           UNIT  = ifelse(POLLUT == 'NO2', 4, ifelse(POLLUT == 'PM10', 2, 1)),
+           CASES = (CHILDREN - (CHILDREN * PRV)) * IR,
+           RRnew = exp((log(CRF)/UNIT)*CONC),
+           AF    = (RRnew - 1)/(RRnew), 
+           AC    = AF*CASES 
+    )
+  
+
+# Examinig sample of the data frame
+s <- sample(1:34389278, 25, replace=FALSE)
+
+burden[s,] %>% 
+  as.data.frame()
+
+
+
+
+# Stop clock --------------------------------------------------------------
+proc.time() - ptm
 
 
