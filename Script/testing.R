@@ -103,3 +103,6 @@ census_3_s %>%
   ggsave("ALL_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
+
+census_2 <- census_2 %>% 
+  select(-M_INCOME)

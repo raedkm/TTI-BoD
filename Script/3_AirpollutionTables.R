@@ -5,19 +5,21 @@
 #Purpose : Create air pollution concentration tables
 #Created by Raed Alotaibi
 #Date Created: 28-June-2019
-#Last Updated: 28-June-2019
+#Last Updated: 2-July-2019
 #---------------------------------------------#
 
+library(scales)    
 
 
-## Note : need the burden data frame (run scipt 1 first)
+## Note : need the burden data frame (run script "1_DataSets.R" first)
 
 
 # Table for pollutant concentration summary by year -----------------------
 
-Table_pollut <- burden %>% 
+Table_pollut_summary <- 
+  burden %>% 
   group_by(POLLUT, YEAR) %>% 
-  select(CONC) %>%
+  #select(CONC) %>%
   #na.omit() %>% 
   summarise( Mean = mean(CONC, na.rm = T),
              Min = min(CONC, na.rm = T), 
@@ -26,8 +28,64 @@ Table_pollut <- burden %>%
              third = quantile(CONC, .75, na.rm = T),
              Max = max(CONC, na.rm = T)) %>% 
   mutate_if(is.numeric, round, digits = 1) %>% 
-  t() %>% 
-  as.data.frame()
+  as_tibble() %>%
+  myspread()
+  select(-POLLUT, -YEAR) %>% 
+  t() 
+
+colnames(Table_pollut_summary) <- Table_names 
+
+write_csv(Table_pollut_summary, path = "Results//Tables//Pollutant_Summary.csv")
+
+
+
+# Table for pollutant concentration mean by year  ----------------
+
+Table_names_pollut <- c("Level","NO2_2000", "NO2_2010", "PM10_2000", "PM10_2010", "PM25_2000", "PM25_2010")
+
+# By year
+
+Table_pollut_All <-  burden %>% 
+  mutate(ALL = 'Total') %>% 
+  group_by(POLLUT, YEAR, ALL) %>% 
+  summarise( MEAN = mean(CONC, na.rm = T)) %>% 
+  mutate_if(is.numeric, round, digits = 1) %>% 
+  spread(YEAR, MEAN) %>% 
+  myspread(POLLUT, c(`2000`,`2010` ))
+
+colnames(Table_pollut_All) <- Table_names_pollut
+
+
+# By living location
+
+Table_pollut_urban <-  burden %>% 
+  group_by(POLLUT, YEAR, URBAN) %>% 
+  summarise( MEAN = mean(CONC, na.rm = T)) %>% 
+  mutate_if(is.numeric, round, digits = 1) %>% 
+  spread(YEAR, MEAN) %>% 
+  myspread(POLLUT, c(`2000`,`2010` ))
+
+colnames(Table_pollut_urban) <- Table_names_pollut
+
+
+# By income
+
+Table_pollut_income <-  burden %>% 
+  group_by(POLLUT, YEAR, INCOME) %>% 
+  summarise( MEAN = mean(CONC, na.rm = T)) %>% 
+  mutate_if(is.numeric, round, digits = 1) %>% 
+  spread(YEAR, MEAN) %>% 
+  myspread(POLLUT, c(`2000`,`2010` ))
+
+colnames(Table_pollut_income) <- Table_names_pollut
+
+
+# Joining all tables
+
+(Table_pollut <- rbind(Table_pollut_All, Table_pollut_urban,  Table_pollut_income)) 
+
+
+write_csv(Table_pollut, path = "Results//Tables//Pollutant.csv")
 
 
 
@@ -36,22 +94,13 @@ Table_pollut <- burden %>%
 
 Table_pollut_state <-  burden %>% 
   group_by(POLLUT, YEAR, STATE) %>% 
-  select(CONC) %>%
-  #na.omit() %>% 
   summarise( MEAN = mean(CONC, na.rm = T)) %>% 
   mutate_if(is.numeric, round, digits = 1) %>% 
-  spread(STATE, MEAN) %>% 
-  as.data.frame()
+  spread(YEAR, MEAN) %>% 
+  myspread(POLLUT, c(`2000`,`2010` ))
 
 
-table_names <- c('NO2 2000', 'NO2 2010', 'PM10 2000', 'PM10 2010', 'PM2.5 2000', 'PM2.5 2010')
-
-Table_pollut_state_t <- t(Table_pollut_state[,c(-1,-2)]) 
-
-colnames(Table_pollut_state_t) <- table_names
-
-
-
+write_csv(Table_pollut_state, path = "Results//Tables//Pollutant_State.csv")
 
 
 

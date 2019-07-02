@@ -94,18 +94,23 @@ rm(income_2000)
 rm(income_2010)
 
 
-# Joining -----------------------------------------------------------------
+# Loading Pollutant data --------------------------------------------------
+load("CACES_P3v1_2000blocks")
+
+var_names <- names(pred_2010)
+
+pred_2000 <- preds.2000.00cw 
+colnames(pred_2000) <- var_names 
 
 
-# Joining census, income, NO2, asthma incidence and asthma prevalance data sets
-join <- census %>% 
-  mutate(GISJOIN_i = substr(GISJOIN, 1, 15)) %>% 
-  left_join(lur, by = "GISJOIN") %>%
-  left_join(income, by = "GISJOIN_i") %>% 
-  left_join(inc, by = "FIPS") %>% 
-  left_join(prv, by = "FIPS") %>% 
-  replace_na(list(IR = weighted_IR, PRV = weighted_PRV)) %>% 
-  select(-GISJOIN_i)
+pred_2010 <- preds.2010 %>%
+  as_tibble() %>% 
+  select(-block_fip)
+
+
+write_csv(pred_2000, path = "Data\\Pollutant\\CACES_2000.csv")
+write_csv(pred_2010, path = "Data\\Pollutant\\CACES_2010.csv")
+
 
 
 # Joining  Census,  Meidna Income, and Pollutant Data----------------------------------------------
