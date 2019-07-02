@@ -10,12 +10,12 @@
 
 
 
-## Note : need the census_3 data frame (run scipt 1 first)
+## Note : need the burden data frame (run scipt 1 first)
 
 
 # Table for pollutant concentration summary by year -----------------------
 
-Table_pollut <- census_3 %>% 
+Table_pollut <- burden %>% 
   group_by(POLLUT, YEAR) %>% 
   select(CONC) %>%
   #na.omit() %>% 
@@ -34,7 +34,7 @@ Table_pollut <- census_3 %>%
 
 # Table for pollutant concentration mean by year and state ----------------
 
-Table_pollut_state <-  census_3 %>% 
+Table_pollut_state <-  burden %>% 
   group_by(POLLUT, YEAR, STATE) %>% 
   select(CONC) %>%
   #na.omit() %>% 

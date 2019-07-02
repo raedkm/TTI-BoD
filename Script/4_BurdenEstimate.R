@@ -5,7 +5,7 @@
 #Purpose : Create burden tables
 #Created by Raed Alotaibi
 #Date Created: 28-June-2019
-#Last Updated: 28-June-2019
+#Last Updated: 1-July-2019
 #---------------------------------------------#
 
 library(scales)    
@@ -20,7 +20,7 @@ library(scales)
 # Total
 Table_incidentCases <- 
   burden %>% 
-  filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
+  filter(POLLUT == 'NO2') %>%  #We need to filter only one pollutant to prevent repeated count
   group_by(YEAR) %>%  
   summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
   mutate_if(is.numeric, round, digits = -2)  %>% 
@@ -39,14 +39,14 @@ Table_incidentCases_urban <-
 
 
 # Median income
-# Table_incidentCases_urban <- 
-#   burden %>% 
-#   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
-#   group_by(YEAR, INCOME) %>%  
-#   summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
-#   mutate_if(is.numeric, round, digits = -2)  %>% 
-#   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
-#   spread(YEAR, IncidentCases) 
+Table_incidentCases_income <-
+  burden %>%
+  filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
+  group_by(YEAR, INCOME) %>%
+  summarise(IncidentCases = sum(CASES, na.rm = T)) %>%
+  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
+  spread(YEAR, IncidentCases)
 
 
 # Total by state
@@ -61,7 +61,7 @@ Table_incidentCases_state <-
 
 
 
-# Table for Burden summary by year -----------------------
+# Table of AC by year -----------------------
 
 
 # Total
@@ -86,12 +86,35 @@ Table_AttributableCases_urban <-
 
 
 # Median income
-# Table_AttributableCases_urban <- 
-#   burden %>% 
-#   group_by(POLLUT, YEAR, INCOME) %>%  
-#   summarise(AttributableCases = sum(AC, na.rm = T)) %>% 
-#   mutate_if(is.numeric, round, digits = -2)  %>% 
-#   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
-#   spread(YEAR, AttributableCases)
+Table_AttributableCases_income <-
+  burden %>%
+  group_by(POLLUT, YEAR, INCOME) %>%
+  summarise(AttributableCases = sum(AC, na.rm = T)) %>%
+  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
+  spread(YEAR, AttributableCases)
+
+
+# Total by state
+# Median income
+Table_AttributableCases_state <-
+  burden %>%
+  group_by(STATE, POLLUT, YEAR) %>%
+  summarise(AttributableCases = sum(AC, na.rm = T)) %>%
+  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
+  spread(YEAR, AttributableCases)
+
+
+Table_incidentCases_state <- 
+  burden %>% 
+  filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
+  group_by(STATE, YEAR) %>%  
+  summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
+  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
+  spread(YEAR, IncidentCases)
+
+
 
 

@@ -30,11 +30,12 @@ library(htmltools)
 
 
 
-# Loading Census 2000 -----------------------------------------------------
-path_census2000 <- "Data\\Census\\nhgis0042_ds147_2000_block.csv"
+# Loading Census -----------------------------------------------------
+#Year 2000 data
+census2000_path <- "Data\\Census\\nhgis0042_ds147_2000_block.csv"
 
 
-var_census2000 <- c("GISJOIN","YEAR", "STATE", "STATEA", "FXS001", 
+census2000_var <- c("GISJOIN","YEAR", "STATE", "STATEA", "FXS001", 
                     "FXT002", "FXT003", "FXU001", "FXU002",       
                     "FYM001", "FYM002", "FYM003", "FYM004", 
                     "FYM024", "FYM025", "FYM026", "FYM027", 
@@ -42,7 +43,7 @@ var_census2000 <- c("GISJOIN","YEAR", "STATE", "STATEA", "FXS001",
 
 
 # Making new variable of total children count "CHILDREN" and renaming variables
-census2000 <- fread(file = path_census2000,data.table = F, stringsAsFactors = F, verbose = T, select = var_census2000,
+census2000 <- fread(file = census2000_path,data.table = F, stringsAsFactors = F, verbose = T, select = census2000_var,
                     colClasses = list(factor = c("STATE"))) %>% 
   filter(FXS001 > 0) %>% 
   mutate(CHILDREN = FYM001 + FYM002 + FYM003 + FYM004 +
@@ -63,11 +64,11 @@ census2000 <- fread(file = path_census2000,data.table = F, stringsAsFactors = F,
 
 
 
-# Loading Census 2010 -----------------------------------------------------
-path_census2010 <- "Data\\Census\\nhgis0043_ds172_2010_block.csv"
+#Year 2010 data
 
+census2010_path <- "Data\\Census\\nhgis0043_ds172_2010_block.csv"
 
-var_census2010 <- c("GISJOIN", "YEAR", "STATE", "STATEA", "H7V001", 
+census2010_var <- c("GISJOIN", "YEAR", "STATE", "STATEA", "H7V001", 
                 "H7W003", "H7W004", "H7W005", "H7W006",      
                 "H76003", "H76004", "H76005", "H76006", 
                 "H76027", "H76028", "H76029", "H76030", 
@@ -75,7 +76,7 @@ var_census2010 <- c("GISJOIN", "YEAR", "STATE", "STATEA", "H7V001",
 
 
 # Making new variable of total children count "CHILDREN" and renaming variables
-census2010 <- fread(file = path_census2010,data.table = F, stringsAsFactors = F, verbose = T, select = var_census2010,
+census2010 <- fread(file = census2010_path,data.table = F, stringsAsFactors = F, verbose = T, select = census2010_var,
                 colClasses = list(factor = c("STATE"))) %>% 
   filter(H7V001 > 0) %>% 
   mutate(CHILDREN = H76003 + H76004 + H76005 +H76006 +
@@ -96,19 +97,82 @@ census2010 <- fread(file = path_census2010,data.table = F, stringsAsFactors = F,
 
 
 
-# Joining Census data by row  ---------------------------------------------------------
+# Joining Census data by row  
+
 census <- bind_rows(census2000, census2010)
 
 rm(census2000)
 rm(census2010)
 
 
+
+
+# Loading Median Income ---------------------------------------------------
+
+#Year 2000 data
+
+income_2000_path <- "Data\\Census\\nhgis0044_ds152_2000_blck_grp.csv"
+
+income_2000_var <- c("GISJOIN",  "HF6001")
+
+income_2000 <- fread(file = income_2000_path, data.table = F, stringsAsFactors = F, verbose = T,  select = income_2000_var) %>% 
+  rename(GISJOIN_i = GISJOIN,
+         M_INCOME = HF6001) %>%
+  mutate(YEAR = 2000,
+         INCOME = as.factor(case_when(
+           M_INCOME < 20000 ~ "<$20,000", 
+           between(M_INCOME, 20000, 34999) ~ "$20,000 to <$35,000", 
+           between(M_INCOME, 35000, 49999) ~ "$35,000 to <$50,000", 
+           between(M_INCOME, 50000, 74999) ~ "$50,000 to <$75,000", 
+           M_INCOME >= 75000  ~ ">=$75,000", 
+           TRUE ~ "Not defined"))) %>% 
+  mutate(INCOME = forcats::fct_relevel(INCOME, "<$20,000", "$20,000 to <$35,000", "$35,000 to <$50,000", 
+                                       "$50,000 to <$75,000", ">=$75,000")) %>% 
+  
+  as_tibble()  
+
+
+#Year 2010 data
+
+income_2010_path <- "Data\\Census\\nhgis0043_ds176_20105_2010_blck_grp.csv"
+
+income_2010_var <- c("GISJOIN", "JOIE001")
+
+income_2010 <- fread(file = income_2010_path, data.table = F, stringsAsFactors = F, verbose = T,  select = income_2010_var) %>% 
+  rename(GISJOIN_i = GISJOIN,
+         M_INCOME = JOIE001) %>%
+  mutate(YEAR = 2010,
+         INCOME = as.factor(case_when(
+           M_INCOME < 20000 ~ "<$20,000", 
+           between(M_INCOME, 20000, 34999) ~ "$20,000 to <$35,000", 
+           between(M_INCOME, 35000, 49999) ~ "$35,000 to <$50,000", 
+           between(M_INCOME, 50000, 74999) ~ "$50,000 to <$75,000", 
+           M_INCOME >= 75000  ~ ">=$75,000", 
+           TRUE ~ "Not defined"))) %>% 
+  mutate(INCOME = forcats::fct_relevel(INCOME, "<$20,000", "$20,000 to <$35,000", 
+                                       "$35,000 to <$50,000", "$50,000 to <$75,000", ">=$75,000")) %>% 
+  as_tibble()  
+
+
+
+
+
+#Binding data
+income <- bind_rows(income_2000, income_2010)
+
+rm(income_2000)
+rm(income_2010)
+
+
+
+
 # Loading NO2  --------------------------------------------------------
 
 #Year 2000 data
-var_NO2_2000 <- c("GISJOIN", "Y2000")
+NO2_2000_path <-"Data\\Pollutant\\NO2_2000.csv"
+NO2_2000_var <- c("GISJOIN", "Y2000")
 
-NO2_2000 <- fread("Data\\Pollutant\\NO2_2000.csv", data.table = F, stringsAsFactors = F,  verbose = T, select = var_NO2_2000) %>% 
+NO2_2000 <- fread(NO2_2000_path, data.table = F, stringsAsFactors = F,  verbose = T, select = NO2_2000_var) %>% 
   mutate(YEAR = 2000) %>% 
   mutate(NO2 = Y2000*1.88) %>% 
   select(GISJOIN,YEAR, NO2) %>% 
@@ -117,9 +181,10 @@ NO2_2000 <- fread("Data\\Pollutant\\NO2_2000.csv", data.table = F, stringsAsFact
 
 
 #Year 2010 data
-var_NO2_2010 <- c("GISJOIN", "Y2010")
+NO2_2010_path <-"Data\\Pollutant\\NO2_2010.csv"
+NO2_2010_var <- c("GISJOIN", "Y2010")
 
-NO2_2010 <- fread("Data\\Pollutant\\NO2_2010.csv", data.table = F, stringsAsFactors = F,  verbose = T, select = var_NO2_2010) %>% 
+NO2_2010 <- fread(NO2_2010_path, data.table = F, stringsAsFactors = F,  verbose = T, select = NO2_2010_var) %>% 
   mutate(YEAR = 2010) %>% 
   mutate(NO2 = Y2010*1.88) %>% 
   select(GISJOIN,YEAR, NO2) %>% 
@@ -137,29 +202,22 @@ rm(NO2_2010)
 # Loading PM  --------------------------------------------------------
 
 #Year 2000 data
-load("Data\\Pollutant\\CACES_P3v1_2000blocks.RData")
+PM_2000_path <-"Data\\Pollutant\\CACES_2000.csv"
+PM_2000_var <- c("GISJOIN", "pm25", "pm10")
 
-PM_2000 <-preds.2000.00cw %>% 
-  select(GJOIN2000, pm25.wght, pm10.wght) %>% 
+PM_2000 <- fread(PM_2000_path, data.table = F, stringsAsFactors = F,  verbose = T, select = PM_2000_var) %>% 
   mutate(YEAR = 2000) %>% 
-  rename(PM2.5 = pm25.wght,
-         PM10 = pm10.wght,
-         GISJOIN = GJOIN2000)
+  as_tibble()
 
-rm(preds.2000.00cw)  
 
 
 #Year 2010 data
-load("Data\\Pollutant\\CACES_P3v1_2010blocks.RData")
+PM_2010_path <-"Data\\Pollutant\\CACES_2010.csv"
+PM_2010_var <- c("GISJOIN", "pm25", "pm10")
 
-PM_2010 <- preds.2010 %>% 
-  select(GISJOIN, pm25, pm10) %>% 
+PM_2010 <- fread(PM_2010_path, data.table = F, stringsAsFactors = F,  verbose = T, select = PM_2010_var) %>% 
   mutate(YEAR = 2010) %>% 
-  rename(PM2.5 = pm25,
-         PM10 = pm10) %>% 
-  as_tibble()
-
-rm(preds.2010)  
+  as_tibble() 
 
 
 #Binding data
@@ -169,42 +227,52 @@ rm(PM_2000)
 rm(PM_2010)
 
 
-# Joining Pollutant  to census data ----------------------------------------------
+
+# Joining  Census,  Meidian Income, and Pollutant Data----------------------------------------------
 
 census_2 <- census %>% 
-  left_join(NO2, by = c("GISJOIN", "YEAR")) %>% 
-  left_join(PM, by = c("GISJOIN", "YEAR")) %>% 
-  mutate_at("YEAR", factor)
+  mutate(GISJOIN_i = substr(GISJOIN, 1, 15)) %>% 
+  left_join(income, by = c("GISJOIN_i", "YEAR")) %>% 
+  left_join(NO2,    by = c("GISJOIN", "YEAR")) %>% 
+  left_join(PM,     by = c("GISJOIN", "YEAR")) %>% 
+  select(-GISJOIN_i, M_INCOME)
 
+
+
+rm(census)
+rm(income)
 rm(NO2)
 rm(PM)
-rm(census)
-
-
 
 
 # Converting wide format to long format -----------------------------------
 census_3 <- census_2 %>% 
-  gather("POLLUT" , "CONC", -GISJOIN, -YEAR, -FIPS, -PlaceFIPS, -PLACEA, -STATE, -URBAN, -TOTAL, -CHILDREN)
+  gather("POLLUT" , "CONC", -GISJOIN, -YEAR, -FIPS, -PlaceFIPS, -PLACEA, -STATE, -URBAN, 
+         -TOTAL, -CHILDREN, -INCOME)
 
-
-
+rm(census_2)
 
 # Estimating the burden ---------------------------------------------------
 
-    burden <- census_3 %>% 
+convert_var <- c("GISJOIN", "FIPS", "PlaceFIPS", "YEAR", "FIPS", "PlaceFIPS", "PLACEA", 
+                 "STATE", "URBAN", "POLLUT", "IR", "PRV", "CRF", "UNIT") #converting variables to factors to reduce file size
+
+
+burden <- census_3 %>% 
     mutate(IR = 0.0125, 
            PRV   = ifelse(YEAR == 2000, 0.124, 0.137),
            CRF   = ifelse(POLLUT == 'NO2', 1.05, ifelse(POLLUT == 'PM10', 1.05, 1.03)),
            UNIT  = ifelse(POLLUT == 'NO2', 4, ifelse(POLLUT == 'PM10', 2, 1)),
            CASES = (CHILDREN - (CHILDREN * PRV)) * IR,
            RRnew = exp((log(CRF)/UNIT)*CONC),
-           AF    = (RRnew - 1)/(RRnew), 
-           AC    = AF*CASES 
-    )
+           PAF    = (RRnew - 1)/(RRnew), 
+           AC    = PAF*CASES) %>% 
+           mutate_at(convert_var, factor)
   
 
-# Examinig sample of the data frame
+rm(census_3)
+
+# Examinig sample of the burden data frame
 s <- sample(1:34389278, 25, replace=FALSE)
 
 burden[s,] %>% 
