@@ -83,7 +83,7 @@ write_csv(Table_incidentCases, path = "Results//Tables//IncidentCases.csv")
 
 
 
-# Table of incident cases by state ----------------------------------------
+# Table of incident cases by year and state ----------------------------------------
 
 Table_incidentCases_state <- 
   burden %>% 
@@ -158,7 +158,7 @@ colnames(Table_AttributableCases_income) <- Table_names
 write_csv(Table_AttributableCases, path = "Results//Tables//AC.csv")
 
 
-# Table of AC by state ----------------------------------------------------
+# Table of AC by year and state ----------------------------------------------------
 
 Table_AttributableCases_state <-
   burden %>%
@@ -177,9 +177,7 @@ write_csv(Table_AttributableCases_state, path = "Results//Tables//AC_State.csv")
 
 
 
-
-
-# Table of AF  ------------------------------------------
+# Table of AF by year ------------------------------------------
 
 Table_incidentCases
 Table_AttributableCases
@@ -189,19 +187,60 @@ Table_names_AF <- c("Level",
                     "AC_NO2_2000", "AC_NO2_2010",
                     "AC_PM10_2000", "AC_PM10_2010",
                     "AC_PM25_2000", "AC_PM25_2010")
+
+round_AF <- c("AF_NO2_2000", "AF_NO2_2010", "AF_PM10_2000", "AF_PM10_2010", "AF_PM25_2000", "AF_PM25_2010")  
   
-  
-Table_AF <- Table_incidentCases %>% 
+Table_incidentCases_join <- Table_incidentCases %>% 
   left_join(Table_AttributableCases, by = "Level")
 
-colnames(Table_AF) <- Table_names_AF
+colnames(Table_incidentCases_join) <- Table_names_AF
 
-Table_AF %>% 
+
+Table_AF <- Table_incidentCases_join %>% 
   mutate_at(vars(-Level), funs(gsub(",", "", .))) %>% 
   mutate_at(vars(-Level), funs(as.numeric(.))) %>% 
-  mutate(AF_NO2_2000 = AC_NO2_2000/IC_2000*100,
-         AF_NO2_2010 = AC_NO2_2010/IC_2010*100,
-         AF_PM10_2000 = AC_PM10_2000/IC_2000*100,
-         AF_PM10_2010 = AC_PM10_2010/IC_2010*100,
-         AF_PM25_2000 = AC_PM25_2000/IC_2000*100,
-         AF_PM25_2010 = AC_PM25_2010/IC_2010*100)
+  mutate(AF_NO2_2000 = AC_NO2_2000/IC_2000,
+         AF_NO2_2010 = AC_NO2_2010/IC_2010,
+         AF_PM10_2000 = AC_PM10_2000/IC_2000,
+         AF_PM10_2010 = AC_PM10_2010/IC_2010,
+         AF_PM25_2000 = AC_PM25_2000/IC_2000,
+         AF_PM25_2010 = AC_PM25_2010/IC_2010) %>% 
+  mutate_at(round_AF, percent, accuracy = 1) %>% 
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) 
+  
+  
+
+write_csv(Table_AF, path = "Results//Tables//AF.csv")
+
+
+# Table of AF by year and state ------------------------------------------
+
+Table_incidentCases_state
+Table_AttributableCases_state
+
+Table_incidentCases_state_join <- Table_incidentCases_state %>% 
+  left_join(Table_AttributableCases_state, by = "Level") %>% 
+  as_tibble()
+
+colnames(Table_incidentCases_state_join) <- Table_names_AF
+
+
+
+Table_AF_state <- Table_incidentCases_state_join %>% 
+  mutate_at(vars(-Level), funs(gsub(",", "", .))) %>% 
+  mutate_at(vars(-Level), funs(as.numeric(.))) %>% 
+  mutate(AF_NO2_2000 = AC_NO2_2000/IC_2000,
+         AF_NO2_2010 = AC_NO2_2010/IC_2010,
+         AF_PM10_2000 = AC_PM10_2000/IC_2000,
+         AF_PM10_2010 = AC_PM10_2010/IC_2010,
+         AF_PM25_2000 = AC_PM25_2000/IC_2000,
+         AF_PM25_2010 = AC_PM25_2010/IC_2010) %>% 
+  mutate_at(round_AF, percent, accuracy = 1)  %>% 
+  mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) 
+
+
+
+write_csv(Table_AF_state, path = "Results//Tables//AF_state.csv")
+
+
+

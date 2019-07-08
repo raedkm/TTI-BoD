@@ -252,7 +252,7 @@ rm(census_2)
 
 # Estimating the burden ---------------------------------------------------
 
-convert_var <- c("YEAR", "URBAN", "INCOME", "POLLUT", ) #converting variables to factors to reduce file size
+convert_var <- c("YEAR", "URBAN", "INCOME", "POLLUT" ) #converting variables to factors to reduce file size
 
 
 burden <- census_3 %>% 
