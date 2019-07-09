@@ -258,11 +258,13 @@ convert_var <- c("YEAR", "URBAN", "INCOME", "POLLUT" ) #converting variables to 
 burden <- census_3 %>% 
     mutate(IR = 0.0125, 
            PRV   = ifelse(YEAR == 2000, 0.124, 0.137),
-           CRF   = ifelse(POLLUT == 'NO2', 1.05, ifelse(POLLUT == 'PM10', 1.05, 1.03)),
-           UNIT  = ifelse(POLLUT == 'NO2', 4, ifelse(POLLUT == 'PM10', 2, 1)),
+           CRF   = ifelse(POLLUT == 'NO2', 1.05, 
+                   ifelse(POLLUT == 'PM10', 1.05, 1.03)),
+           UNIT  = ifelse(POLLUT == 'NO2', 4, 
+                   ifelse(POLLUT == 'PM10', 2, 1)),
            CASES = (CHILDREN - (CHILDREN * PRV)) * IR,
            RRnew = exp((log(CRF)/UNIT)*CONC),
-           PAF    = (RRnew - 1)/(RRnew), 
+           PAF   = (RRnew - 1)/(RRnew), 
            AC    = PAF*CASES) %>% 
   mutate_at(convert_var, factor) %>% #converting select variables to factors
   mutate(INCOME = fct_relevel(INCOME, "Not defined", 
