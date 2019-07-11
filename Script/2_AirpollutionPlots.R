@@ -108,3 +108,20 @@ burden_s %>%
   scale_y_bod +
   scale_fill_manual(values=c("#600000", "#ffaaaa"))+
   ggsave("PM10_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+
+
+
+# #	Pollutant concentration by year and living location
+# burden_s %>%
+#   select(YEAR, POLLUT, CONC) %>% 
+#   filter(POLLUT == 'NO2') %>% 
+#   ggplot(aes(x = YEAR, y = CONC, fill= YEAR)) +
+#   facet_wrap( ~ STATE, nrow =  7 ) +
+#   geom_boxplot(show.legend = FALSE, outlier.size = 0.1) + 
+#   mean_dot +
+#   theme_bw() +
+#   theme_text2 +
+#   scale_y_bod +
+#   scale_fill_manual(values=c("#004e82", "#a5dbff"))+
+#   ggsave("NO2_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+# 

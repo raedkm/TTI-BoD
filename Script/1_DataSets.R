@@ -10,6 +10,8 @@
 #Last Updated: 2-July-2019
 #---------------------------------------------#
 
+# Increasing memory allocation to run the analysis
+memory.limit(size=50000)
 
 # Loading packagesa -------------------------------------------------------
 
@@ -187,6 +189,7 @@ NO2_2010 <- fread(NO2_2010_path, data.table = F, stringsAsFactors = F,  verbose 
 #Binding data
 NO2 <- bind_rows(NO2_2000, NO2_2010)
 
+
 rm(NO2_2000)
 rm(NO2_2010)
 
@@ -221,6 +224,7 @@ rm(PM_2010)
 
 
 
+
 # Joining  Census,  Meidian Income, and Pollutant Data----------------------------------------------
 
 census_2 <- census %>% 
@@ -238,8 +242,6 @@ rm(NO2)
 rm(PM)
 
 
-
-
 # Converting wide format to long format  -----------------------------------
 
 census_3 <- census_2 %>% 
@@ -254,18 +256,19 @@ rm(census_2)
 
 convert_var <- c("YEAR", "URBAN", "INCOME", "POLLUT" ) #converting variables to factors to reduce file size
 
+IR  <- 0.0125
 
 burden <- census_3 %>% 
-    mutate(IR = 0.0125, 
+    mutate(
            PRV   = ifelse(YEAR == 2000, 0.124, 0.137),
            CRF   = ifelse(POLLUT == 'NO2', 1.05, 
-                   ifelse(POLLUT == 'PM10', 1.05, 1.03)),
+                   ifelse(POLLUT == 'pm10', 1.05, 1.03)),
            UNIT  = ifelse(POLLUT == 'NO2', 4, 
-                   ifelse(POLLUT == 'PM10', 2, 1)),
+                   ifelse(POLLUT == 'pm10', 2, 1)),
            CASES = (CHILDREN - (CHILDREN * PRV)) * IR,
            RRnew = exp((log(CRF)/UNIT)*CONC),
            PAF   = (RRnew - 1)/(RRnew), 
-           AC    = PAF*CASES) %>% 
+           AC    = PAF*CASES) %>%
   mutate_at(convert_var, factor) %>% #converting select variables to factors
   mutate(INCOME = fct_relevel(INCOME, "Not defined", 
                                       "<$20,000", 
@@ -277,8 +280,7 @@ burden <- census_3 %>%
                                       "Urban cluster", 
                                       "Rural", 
                                       "Not defined"),
-         POLLUT = fct_relevel(POLLUT, "NO2", "pm25", "pm10")) #reordering the levels of factors for plots and tables order
-
+         POLLUT = fct_relevel(POLLUT, "NO2", "pm25", "pm10"))   #Reordering the levels of factors for plots and table
 
 
 rm(census_3)
