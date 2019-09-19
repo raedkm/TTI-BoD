@@ -5,30 +5,14 @@
 #Purpose : Create burden tables
 #Created by Raed Alotaibi
 #Date Created: 28-June-2019
-#Last Updated: 2-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
 
 
-# Creating a uniquea spread function for multiple value columns -----------
-
-
-myspread <- function(df, key, value) {
-  # quote key
-  keyq <- rlang::enquo(key)
-  # break value vector into quotes
-  valueq <- rlang::enquo(value)
-  s <- rlang::quos(!!valueq)
-  df %>% gather(variable, value, !!!s) %>%
-    unite(temp, !!keyq, variable) %>%
-    spread(temp, value)
-}
-
-#Example:: t2 <- df %>% myspread(student, c(A, B))
 
 # Table of Incident cases by year -----------------------------------------
 Table_names <- c("Level","2000", "2010")
@@ -40,7 +24,7 @@ Table_incidentCases_ALL <-
   mutate(ALL = 'Total') %>% 
   group_by(YEAR, ALL) %>% 
   summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, IncidentCases) 
 
@@ -52,7 +36,7 @@ Table_incidentCases_urban <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, URBAN) %>%  
   summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, IncidentCases) 
 
@@ -65,7 +49,7 @@ Table_incidentCases_income <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, INCOME) %>%
   summarise(IncidentCases = sum(CASES, na.rm = T)) %>%
-  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, round, digits = 0)  %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
   spread(YEAR, IncidentCases)
 
@@ -90,7 +74,7 @@ Table_incidentCases_state <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(STATE, YEAR) %>%  
   summarise(IncidentCases = sum(CASES, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, IncidentCases)
 
@@ -112,7 +96,7 @@ Table_AttributableCases_ALL <-
   mutate(ALL = 'Total') %>% 
   group_by(POLLUT, YEAR, ALL) %>% 
   summarise(AttributableCases = sum(AC, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) %>% 
   myspread(POLLUT, c(`2000`,`2010` ))
@@ -125,7 +109,7 @@ Table_AttributableCases_urban <-
   burden %>% 
   group_by(POLLUT, YEAR, URBAN) %>%  
   summarise(AttributableCases = sum(AC, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) %>% 
   myspread(POLLUT, c(`2000`,`2010` ))
@@ -139,7 +123,7 @@ Table_AttributableCases_income <-
   burden %>%
   group_by(POLLUT, YEAR, INCOME) %>%
   summarise(AttributableCases = sum(AC, na.rm = T)) %>%
-  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, round, digits = 0)  %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
   spread(YEAR, AttributableCases) %>% 
   myspread(POLLUT, c(`2000`,`2010` ))
@@ -164,7 +148,7 @@ Table_AttributableCases_state <-
   burden %>%
   group_by(STATE, POLLUT, YEAR) %>%
   summarise(AttributableCases = sum(AC, na.rm = T)) %>%
-  mutate_if(is.numeric, round, digits = -2)  %>%
+  mutate_if(is.numeric, round, digits = 0)  %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
   spread(YEAR, AttributableCases) %>% 
   myspread(POLLUT, c(`2000`,`2010` ))

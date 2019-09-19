@@ -1,31 +1,16 @@
 #---------------------------------------------#
 #Project : Final report TRAP project - 2019
 #Sub     : Demographics
-#Part    : (0)  Sensitivity Analysis
+#Part    : (09)  Sensitivity Analysis
 #Purpose : Create Sensitivity Analysis  tables
 #Created by Raed Alotaibi
 #Date Created: 10-July-2019
-#Last Updated: 10-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
-
-
-# Creating a uniquea spread function for multiple value columns -----------
-
-myspread <- function(df, key, value) {
-  # quote key
-  keyq <- rlang::enquo(key)
-  # break value vector into quotes
-  valueq <- rlang::enquo(value)
-  s <- rlang::quos(!!valueq)
-  df %>% gather(variable, value, !!!s) %>%
-    unite(temp, !!keyq, variable) %>%
-    spread(temp, value)
-}
 
 
 

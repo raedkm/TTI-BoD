@@ -7,11 +7,28 @@
 #         Followed by estimating the burden
 #Created by Raed Alotaibi
 #Date Created: 26-June-2019
-#Last Updated: 2-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
 # Increasing memory allocation to run the analysis
 memory.limit(size=50000)
+
+
+# Installing packages -----------------------------------------------------
+
+# install.packages("readr")
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("data.table")
+# install.packages("readxl")
+# install.packages("stringr")
+# install.packages("stringi")
+# install.packages("DT")
+# install.packages("htmltools")
+# install.packages("forcats")
+# install.packages("scales")    
+# install.packages("ggplot2")
+
 
 # Loading packagesa -------------------------------------------------------
 
@@ -25,6 +42,23 @@ library(stringi)
 library(DT)
 library(htmltools)
 library(forcats)
+library(scales)    
+library(ggplot2)
+
+
+# Creating my_spread function ---------------------------------------------
+
+myspread <- function(df, key, value) {
+  # quote key
+  keyq <- rlang::enquo(key)
+  # break value vector into quotes
+  valueq <- rlang::enquo(value)
+  s <- rlang::quos(!!valueq)
+  df %>% gather(variable, value, !!!s) %>%
+    unite(temp, !!keyq, variable) %>%
+    spread(temp, value)
+}
+
 
 
 # Start clock --------------------------------------------------------------

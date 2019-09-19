@@ -1,35 +1,21 @@
 #---------------------------------------------#
 #Project : Final report TRAP project - 2019
 #Sub     : Geographics
-#Part    : (0)  Geographic tables
+#Part    : (06)  Geographic tables
 #Purpose : Create geographic tables
 #Created by Raed Alotaibi
 #Date Created: 3-July-2019
-#Last Updated: 3-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
 
 
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
 
 
-# Creating a uniquea spread function for multiple value columns -----------
 
-myspread <- function(df, key, value) {
-  # quote key
-  keyq <- rlang::enquo(key)
-  # break value vector into quotes
-  valueq <- rlang::enquo(value)
-  s <- rlang::quos(!!valueq)
-  df %>% gather(variable, value, !!!s) %>%
-    unite(temp, !!keyq, variable) %>%
-    spread(temp, value)
-}
-
-#Example:: t2 <- df %>% myspread(student, c(A, B))
 
 
 # Table of N by year -----------------------------------------

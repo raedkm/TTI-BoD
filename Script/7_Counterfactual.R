@@ -1,33 +1,18 @@
 #---------------------------------------------#
 #Project : Final report TRAP project - 2019
 #Sub     : Demographics
-#Part    : (0)  Counterfactual scenarios
+#Part    : (07)  Counterfactual scenarios
 #Purpose : Create counterfactual scenarios and tables
 #Created by Raed Alotaibi
 #Date Created: 10-July-2019
-#Last Updated: 10-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
 
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
 
-
-# Creating a uniquea spread function for multiple value columns -----------
-
-
-myspread <- function(df, key, value) {
-  # quote key
-  keyq <- rlang::enquo(key)
-  # break value vector into quotes
-  valueq <- rlang::enquo(value)
-  s <- rlang::quos(!!valueq)
-  df %>% gather(variable, value, !!!s) %>%
-    unite(temp, !!keyq, variable) %>%
-    spread(temp, value)
-}
 
 
 # Counterfactual Scenrio --------------------------------------------------
@@ -48,7 +33,7 @@ burden_sc1 <- burden %>%
   mutate(ALL = 'Total') %>% 
   group_by(POLLUT, YEAR, ALL) %>% 
   summarise(AttributableCases = sum(AC, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) 
 
@@ -73,7 +58,7 @@ burden_sc2 <- burden %>%
   mutate(ALL = 'Total') %>% 
   group_by(POLLUT, YEAR, ALL) %>% 
   summarise(AttributableCases = sum(AC, na.rm = T)) %>% 
-  mutate_if(is.numeric, round, digits = -2)  %>% 
+  mutate_if(is.numeric, round, digits = 0)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) 
 

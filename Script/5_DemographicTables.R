@@ -1,33 +1,19 @@
 #---------------------------------------------#
 #Project : Final report TRAP project - 2019
 #Sub     : Demographics
-#Part    : (0)  Demographic tables
+#Part    : (05)  Demographic tables
 #Purpose : Create demographic tables
 #Created by Raed Alotaibi
 #Date Created: 3-July-2019
-#Last Updated: 3-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
 
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
 
 
-# Creating a uniquea spread function for multiple value columns -----------
 
-myspread <- function(df, key, value) {
-  # quote key
-  keyq <- rlang::enquo(key)
-  # break value vector into quotes
-  valueq <- rlang::enquo(value)
-  s <- rlang::quos(!!valueq)
-  df %>% gather(variable, value, !!!s) %>%
-    unite(temp, !!keyq, variable) %>%
-    spread(temp, value)
-}
-
-#Example:: t2 <- df %>% myspread(student, c(A, B))
 
 
 # Table of Children by year -----------------------------------------
@@ -40,7 +26,6 @@ Table_childTotal_ALL <-
   mutate(ALL = 'Total') %>% 
   group_by(YEAR, ALL) %>% 
   summarise(childTotal = sum(CHILDREN, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, childTotal) 
 
@@ -52,7 +37,6 @@ Table_childTotal_urban <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, URBAN) %>%  
   summarise(childTotal = sum(CHILDREN, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, childTotal) 
 
@@ -65,7 +49,6 @@ Table_childTotal_income <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, INCOME) %>%
   summarise(childTotal = sum(CHILDREN, na.rm = T)) %>%
-  #mutate_if(is.numeric, round, digits = -2)  %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
   spread(YEAR, childTotal)
 
@@ -89,7 +72,6 @@ Table_childTotal_state <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(STATE, YEAR) %>%  
   summarise(childTotal = sum(CHILDREN, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, childTotal) %>% 
   mutate_at(vars(-STATE), funs(gsub(",", "", .))) %>% 
@@ -112,7 +94,6 @@ Table_popTotal_ALL <-
   mutate(ALL = 'Total') %>% 
   group_by(YEAR, ALL) %>% 
   summarise(popTotal = sum(TOTAL, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, popTotal) 
 
@@ -124,7 +105,6 @@ Table_popTotal_urban <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, URBAN) %>%  
   summarise(popTotal = sum(TOTAL, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, popTotal) 
 
@@ -137,7 +117,6 @@ Table_popTotal_income <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(YEAR, INCOME) %>%
   summarise(popTotal = sum(TOTAL, na.rm = T)) %>%
-  #mutate_if(is.numeric, round, digits = -2)  %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>%
   spread(YEAR, popTotal)
 
@@ -161,7 +140,6 @@ Table_popTotal_state <-
   filter(POLLUT == 'NO2') %>%  #We need to filter onl one pollutant to prevent repeated count
   group_by(STATE, YEAR) %>%  
   summarise(popTotal = sum(TOTAL, na.rm = T)) %>% 
-  #mutate_if(is.numeric, round, digits = -2)  %>% 
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, popTotal) %>% 
   mutate_at(vars(-STATE), funs(gsub(",", "", .))) %>% 

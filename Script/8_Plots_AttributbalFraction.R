@@ -1,16 +1,12 @@
 #---------------------------------------------#
 #Project : Final report TRAP project - 2019
 #Sub     : Pollutant estimate
-#Part    : (00) Plotting burden estimates 
+#Part    : (08) Plotting burden estimates 
 #Purpose : Plot Attributable fractions
 #Created by Raed Alotaibi
 #Date Created: 19-July-2019
-#Last Updated: 22-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
-
-library(ggplot2)
-library(scales)
-library(forcats)
 
 
 # Preventing scientific notations

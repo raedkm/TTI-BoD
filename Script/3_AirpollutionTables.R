@@ -5,10 +5,8 @@
 #Purpose : Create air pollution concentration tables
 #Created by Raed Alotaibi
 #Date Created: 28-June-2019
-#Last Updated: 2-July-2019
+#Last Updated: 13-Aug-2019
 #---------------------------------------------#
-
-library(scales)    
 
 
 ## Note : need the burden data frame (run script "1_DataSets.R" first)
@@ -16,11 +14,8 @@ library(scales)
 
 # Table for pollutant concentration summary by year -----------------------
 
-Table_pollut_summary <- 
-  burden %>% 
+Table_pollut_summary <- burden %>% 
   group_by(POLLUT, YEAR) %>% 
-  #select(CONC) %>%
-  #na.omit() %>% 
   summarise( Mean = mean(CONC, na.rm = T),
              Min = min(CONC, na.rm = T), 
              first = quantile(CONC, .25, na.rm = T),
@@ -28,14 +23,15 @@ Table_pollut_summary <-
              third = quantile(CONC, .75, na.rm = T),
              Max = max(CONC, na.rm = T)) %>% 
   mutate_if(is.numeric, round, digits = 1) %>% 
-  as_tibble() %>%
-  myspread()
+  as.data.frame() %>% 
   select(-POLLUT, -YEAR) %>% 
-  t() 
+  t() %>%  
+  as.data.frame()
 
-colnames(Table_pollut_summary) <- Table_names 
+colnames(Table_pollut_summary) <- c("NO2_2000", "NO2_2010", "PM10_2000", "PM10_2010", "PM25_2000", "PM25_2010") 
 
-write_csv(Table_pollut_summary, path = "Results//Tables//Pollutant_Summary.csv")
+
+write_csv(Table_pollut_summary, path = "Results//Tables//Pollutant_Summary.csv", col_names = T, )
 
 
 
@@ -45,7 +41,7 @@ Table_names_pollut <- c("Level","NO2_2000", "NO2_2010", "PM10_2000", "PM10_2010"
 
 # By year
 
-Table_pollut_All <-  burden %>% 
+Table_pollut_All <- burden %>% 
   mutate(ALL = 'Total') %>% 
   group_by(POLLUT, YEAR, ALL) %>% 
   summarise( MEAN = mean(CONC, na.rm = T)) %>% 
