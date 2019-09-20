@@ -37,7 +37,7 @@ burden_sc1 <- burden %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) 
 
-write_csv(burden_sc1, path = "Results//Tables//CounterScenario1.csv")
+write_csv(burden_sc1, path = "Output/Tables/CounterScenario1.csv")
 
 
 
@@ -62,7 +62,7 @@ burden_sc2 <- burden %>%
   mutate_if(is.numeric, funs(prettyNum(., big.mark=","))) %>% 
   spread(YEAR, AttributableCases) 
 
-write_csv(burden_sc2, path = "Results//Tables//CounterScenario2.csv")
+write_csv(burden_sc2, path = "Output/Tables/CounterScenario2.csv")
 
 
 

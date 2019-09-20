@@ -62,7 +62,7 @@ colnames(Table_childTotal_income) <- Table_names
   Table_childTotal_urban, 
   Table_childTotal_income)) 
 
-write_csv(Table_childTotal, path = "Results//Tables//childTotal.csv")
+write_csv(Table_childTotal, path = "Output/Tables/childTotal.csv")
 
 
 # Table of children year and state ----------------------------------------
@@ -81,7 +81,7 @@ mutate_if(is.numeric, funs(prettyNum(., big.mark=",")))
 
 
 
-write_csv(Table_childTotal_state, path = "Results//Tables//childTotal_State.csv")
+write_csv(Table_childTotal_state, path = "Output/Tables/childTotal_State.csv")
 
 
 
@@ -130,7 +130,7 @@ colnames(Table_popTotal_income) <- Table_names
   Table_popTotal_urban, 
   Table_popTotal_income)) 
 
-write_csv(Table_popTotal, path = "Results//Tables//popTotal.csv")
+write_csv(Table_popTotal, path = "Output/Tables/popTotal.csv")
 
 
 # Table of incident cases by year and state ----------------------------------------
@@ -149,7 +149,7 @@ Table_popTotal_state <-
 
 
 
-write_csv(Table_popTotal_state, path = "Results//Tables//popTotal_State.csv")
+write_csv(Table_popTotal_state, path = "Output/Tables/popTotal_State.csv")
 
 
 

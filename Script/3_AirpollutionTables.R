@@ -31,7 +31,7 @@ Table_pollut_summary <- burden %>%
 colnames(Table_pollut_summary) <- c("NO2_2000", "NO2_2010", "PM10_2000", "PM10_2010", "PM25_2000", "PM25_2010") 
 
 
-write_csv(Table_pollut_summary, path = "Results//Tables//Pollutant_Summary.csv", col_names = T, )
+write_csv(Table_pollut_summary, path = "Output/Tables/Pollutant_Summary.csv", col_names = T, )
 
 
 
@@ -81,7 +81,7 @@ colnames(Table_pollut_income) <- Table_names_pollut
 (Table_pollut <- rbind(Table_pollut_All, Table_pollut_urban,  Table_pollut_income)) 
 
 
-write_csv(Table_pollut, path = "Results//Tables//Pollutant.csv")
+write_csv(Table_pollut, path = "Output/Tables/Pollutant.csv")
 
 
 
@@ -96,7 +96,7 @@ Table_pollut_state <-  burden %>%
   myspread(POLLUT, c(`2000`,`2010` ))
 
 
-write_csv(Table_pollut_state, path = "Results//Tables//Pollutant_State.csv")
+write_csv(Table_pollut_state, path = "Output/Tables/Pollutant_State.csv")
 
 
 

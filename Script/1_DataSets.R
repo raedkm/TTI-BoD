@@ -68,7 +68,7 @@ ptm <- proc.time()
 
 # Loading Census -----------------------------------------------------
 #Year 2000 data
-census2000_path <- "Data\\Census\\nhgis0042_ds147_2000_block.csv"
+census2000_path <- "Input/Census/nhgis0042_ds147_2000_block.csv"
 
 
 census2000_var <- c("GISJOIN","YEAR", "STATE", "STATEA", "FXS001", 
@@ -101,7 +101,7 @@ census2000 <- fread(file = census2000_path,data.table = F, stringsAsFactors = F,
 
 #Year 2010 data
 
-census2010_path <- "Data\\Census\\nhgis0043_ds172_2010_block.csv"
+census2010_path <- "Input/Census/nhgis0043_ds172_2010_block.csv"
 
 census2010_var <- c("GISJOIN", "YEAR", "STATE", "STATEA", "H7V001", 
                 "H7W003", "H7W004", "H7W005", "H7W006",      
@@ -145,7 +145,7 @@ rm(census2010)
 
 #Year 2000 data
 
-income_2000_path <- "Data\\Census\\nhgis0044_ds152_2000_blck_grp.csv"
+income_2000_path <- "Input/Census/nhgis0044_ds152_2000_blck_grp.csv"
 
 income_2000_var <- c("GISJOIN",  "HF6001")
 
@@ -165,7 +165,7 @@ income_2000 <- fread(file = income_2000_path, data.table = F, stringsAsFactors =
 
 #Year 2010 data
 
-income_2010_path <- "Data\\Census\\nhgis0043_ds176_20105_2010_blck_grp.csv"
+income_2010_path <- "Input/Census/nhgis0043_ds176_20105_2010_blck_grp.csv"
 
 income_2010_var <- c("GISJOIN", "JOIE001")
 
@@ -198,7 +198,7 @@ rm(income_2010)
 # Loading NO2  --------------------------------------------------------
 
 #Year 2000 data
-NO2_2000_path <-"Data\\Pollutant\\NO2_2000.csv"
+NO2_2000_path <-"Input/Pollutant/NO2_2000.csv"
 NO2_2000_var <- c("GISJOIN", "Y2000")
 
 NO2_2000 <- fread(NO2_2000_path, data.table = F, stringsAsFactors = F,  verbose = F, select = NO2_2000_var) %>% 
@@ -210,7 +210,7 @@ NO2_2000 <- fread(NO2_2000_path, data.table = F, stringsAsFactors = F,  verbose 
 
 
 #Year 2010 data
-NO2_2010_path <-"Data\\Pollutant\\NO2_2010.csv"
+NO2_2010_path <-"Input/Pollutant/NO2_2010.csv"
 NO2_2010_var <- c("GISJOIN", "Y2010")
 
 NO2_2010 <- fread(NO2_2010_path, data.table = F, stringsAsFactors = F,  verbose = F, select = NO2_2010_var) %>% 
@@ -232,7 +232,7 @@ rm(NO2_2010)
 # Loading PM  --------------------------------------------------------
 
 #Year 2000 data
-PM_2000_path <-"Data\\Pollutant\\CACES_2000.csv"
+PM_2000_path <-"Input/Pollutant/CACES_2000.csv"
 PM_2000_var <- c("GISJOIN", "pm25", "pm10")
 
 PM_2000 <- fread(PM_2000_path, data.table = F, stringsAsFactors = F,  verbose = F, select = PM_2000_var) %>% 
@@ -242,7 +242,7 @@ PM_2000 <- fread(PM_2000_path, data.table = F, stringsAsFactors = F,  verbose = 
 
 
 #Year 2010 data
-PM_2010_path <-"Data\\Pollutant\\CACES_2010.csv"
+PM_2010_path <-"Input/Pollutant/CACES_2010.csv"
 PM_2010_var <- c("GISJOIN", "pm25", "pm10")
 
 PM_2010 <- fread(PM_2010_path, data.table = F, stringsAsFactors = F,  verbose = F, select = PM_2010_var) %>% 

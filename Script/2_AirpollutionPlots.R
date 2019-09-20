@@ -70,7 +70,7 @@ burden_s %>%
   theme_text2 +
   scale_y_bod +
   scale_fill_manual(values=c("#004e82", "#a5dbff"))+
-  ggsave("NO2_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("NO2_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 
@@ -86,7 +86,7 @@ burden_s %>%
   theme_text2 +
   scale_y_bod +
   scale_fill_manual(values=c("#e5d600", "#f9f6cf"))+
-  ggsave("PM2.5_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM2.5_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 
@@ -103,7 +103,7 @@ burden_s %>%
   theme_text2 +
   scale_y_bod +
   scale_fill_manual(values=c("#600000", "#ffaaaa"))+
-  ggsave("PM10_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM10_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 
@@ -119,5 +119,5 @@ burden_s %>%
 #   theme_text2 +
 #   scale_y_bod +
 #   scale_fill_manual(values=c("#004e82", "#a5dbff"))+
-#   ggsave("NO2_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+#   ggsave("NO2_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 # 

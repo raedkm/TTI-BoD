@@ -80,7 +80,7 @@ mean_dot <- stat_summary(fun.y=mean, geom="point", shape=20, size=1, color="red"
 #   scale_y_bod +
 #   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
 #   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-#   ggsave("All_AF_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+#   ggsave("All_AF_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 #	POLLUT AF by state 
 burden_s %>%
@@ -94,7 +94,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("ALL_AF_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("ALL_AF_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 # AF by Living location -------------------------------------------------------------
@@ -111,7 +111,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("All_AF_Urban_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("All_AF_Urban_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	NO2 AF by living location
@@ -125,7 +125,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("NO2_AF_Urban_year.png" ,path = "Results/Plots", width = 9.5, height = 6,  dpi = 360, pointsize=3)
+  ggsave("NO2_AF_Urban_year.png" ,path = "Output/Plots", width = 9.5, height = 6,  dpi = 360, pointsize=3)
 
 
 #	PM10 AF by living location
@@ -139,7 +139,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM10_AF_Urban_year.png" ,path = "Results/Plots", width = 9.5, height = 6,  dpi = 360, pointsize=3)
+  ggsave("PM10_AF_Urban_year.png" ,path = "Output/Plots", width = 9.5, height = 6,  dpi = 360, pointsize=3)
 
 
 #	PM2.5 AF by living location
@@ -153,7 +153,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM25_AF_Urban_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM25_AF_Urban_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 # AF by Living location and state --------------------------------------------------
@@ -171,7 +171,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("NO2_AF_Urban_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("NO2_AF_Urban_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM10 AF by state and living location
@@ -186,7 +186,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM10_AF_Urban_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM10_AF_Urban_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM2.5 AF by state and living location
@@ -201,7 +201,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM25_AF_Urban_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM25_AF_Urban_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 
@@ -221,7 +221,7 @@ burden_s %>%
   scale_y_bod +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("All_AF_Income_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("All_AF_Income_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	NO2 AF by income
@@ -237,7 +237,7 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("NO2_AF_Income_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("NO2_AF_Income_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM10 AF by income
@@ -253,7 +253,7 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM10_AF_Income_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM10_AF_Income_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM2.5 AF by income
@@ -269,7 +269,7 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM25_AF_Income_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM25_AF_Income_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 # AF by Income and state --------------------------------------------------
@@ -289,7 +289,7 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("NO2_AF_Income_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("NO2_AF_Income_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM10 AF by state and income
@@ -306,7 +306,7 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM10_AF_Income_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM10_AF_Income_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 
 #	PM2.5 AF by state and income
@@ -323,6 +323,6 @@ burden_s %>%
   #mean_dot +
   scale_colour_manual(values=c("black", "red"), aesthetics = "colour")+
   scale_fill_manual(values=c("white","white","white","white", "white","white","white"))+
-  ggsave("PM25_AF_Income_state_year.png" ,path = "Results/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
+  ggsave("PM25_AF_Income_state_year.png" ,path = "Output/Plots", width = 9.5, height = 12,  dpi = 360, pointsize=3)
 
 

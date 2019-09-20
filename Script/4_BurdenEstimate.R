@@ -63,7 +63,7 @@ colnames(Table_incidentCases_income) <- Table_names
   Table_incidentCases_urban, 
   Table_incidentCases_income)) 
 
-write_csv(Table_incidentCases, path = "Results//Tables//IncidentCases.csv")
+write_csv(Table_incidentCases, path = "Output/Tables/IncidentCases.csv")
 
 
 
@@ -82,7 +82,7 @@ Table_incidentCases_state <-
 
 colnames(Table_incidentCases_state) <- Table_names
 
-write_csv(Table_incidentCases_state, path = "Results//Tables//IncidentCases_State.csv")
+write_csv(Table_incidentCases_state, path = "Output/Tables/IncidentCases_State.csv")
 
 
 
@@ -139,7 +139,7 @@ colnames(Table_AttributableCases_income) <- Table_names
   Table_AttributableCases_income)) 
 
 
-write_csv(Table_AttributableCases, path = "Results//Tables//AC.csv")
+write_csv(Table_AttributableCases, path = "Output/Tables/AC.csv")
 
 
 # Table of AC by year and state ----------------------------------------------------
@@ -157,7 +157,7 @@ Table_AttributableCases_state <-
 colnames(Table_AttributableCases_state) <- Table_names
 
 
-write_csv(Table_AttributableCases_state, path = "Results//Tables//AC_State.csv")
+write_csv(Table_AttributableCases_state, path = "Output/Tables/AC_State.csv")
 
 
 
@@ -194,7 +194,7 @@ Table_AF <- Table_incidentCases_join %>%
   
   
 
-write_csv(Table_AF, path = "Results//Tables//AF.csv")
+write_csv(Table_AF, path = "Output/Tables/AF.csv")
 
 
 # Table of AF by year and state ------------------------------------------
@@ -224,7 +224,7 @@ Table_AF_state <- Table_incidentCases_state_join %>%
 
 
 
-write_csv(Table_AF_state, path = "Results//Tables//AF_state.csv")
+write_csv(Table_AF_state, path = "Output/Tables/AF_state.csv")
 
 
 

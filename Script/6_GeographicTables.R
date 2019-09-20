@@ -72,7 +72,7 @@ colnames(Table_n_income) <- Table_names
   Table_n_urban, 
   Table_n_income)) 
 
-write_csv(Table_n, path = "Results//Tables//n.csv")
+write_csv(Table_n, path = "OutputTables/n.csv")
 
 
 # Table of N year and state ----------------------------------------
@@ -93,4 +93,4 @@ Table_n_state <-
 
 
 
-write_csv(Table_n_state, path = "Results//Tables//n_State.csv")
+write_csv(Table_n_state, path = "OutputTables/n_State.csv")
